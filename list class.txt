@@ -1,0 +1,111 @@
+#include <iostream>
+
+using namespace std;
+
+class Node
+{
+public:
+    int data;
+    Node* next;
+};
+
+class LinkedList
+{
+private:
+    Node* head;
+
+public:
+    LinkedList()
+    {
+        head = NULL;
+    }
+
+    bool isEmpty()
+    {
+        return (head == NULL);
+    }
+
+    void insertFirst(int value)
+    {
+        Node* newnode = new Node();
+        newnode->data = value;
+        if (isEmpty())
+        {
+            newnode->next = NULL;
+            head = newnode;
+        }
+        else
+        {
+            newnode->next = head;
+            head = newnode;
+        }
+    }
+
+    void display()
+    {
+        Node* temp = head;
+        while (temp != NULL)
+        {
+            cout << temp->data << " ";
+            temp = temp->next;
+        }
+        cout << endl;
+    }
+
+    int count()
+    {
+        int count = 0;
+        Node* temp = head;
+        while (temp != NULL)
+        {
+            count++;
+            temp = temp->next;
+        }
+        return count;
+    }
+
+    bool isFound(int key)
+    {
+        Node* temp = head;
+        while (temp != NULL)
+        {
+            if (temp->data == key)
+            {
+                return true;
+            }
+            temp = temp->next;
+        }
+        return false;
+    }
+};
+
+int main()
+{
+    LinkedList list;
+    if (list.isEmpty())
+    {
+        cout << "The list is empty." << endl;
+    }
+    else
+    {
+        cout << "The list contains " << list.count() << " elements." << endl;
+    }
+
+    list.insertFirst(10);
+    list.insertFirst(20);
+    list.insertFirst(30);
+
+    cout << "After inserting elements: ";
+    list.display();
+
+    if (list.isFound(20))
+    {
+        cout << "Element 20 is found in the list." << endl;
+    }
+    else
+    {
+        cout << "Element 20 is not found in the list." << endl;
+    }
+
+    return 0;
+}

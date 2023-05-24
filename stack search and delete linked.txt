@@ -1,0 +1,102 @@
+#include <iostream>
+
+using namespace std;
+struct Node {
+    int data;
+    Node* next;
+};
+
+class LinkedListStack {
+private:
+    Node* top;
+
+public:
+    LinkedListStack() {
+        top = nullptr;
+    }
+
+    void push(int item) {
+        Node* newNode = new Node;
+        newNode->data = item;
+        newNode->next = top;
+        top = newNode;
+    }
+
+    int pop() {
+        if (isEmpty()) {
+            std::cout << "Stack is empty. Cannot pop from an empty stack.\n";
+            return -1;
+        }
+
+        int item = top->data;
+        Node* temp = top;
+        top = top->next;
+        delete temp;
+        return item;
+    }
+
+    bool isEmpty() {
+        return top == nullptr;
+    }
+
+    void printStack() {
+        if (isEmpty()) {
+            std::cout << "Stack is empty.\n";
+            return;
+        }
+
+        Node* temp = top;
+        std::cout << "Stack: ";
+        while (temp != nullptr) {
+            std::cout << temp->data << " ";
+            temp = temp->next;
+        }
+        std::cout << std::endl;
+    }
+
+    void searchAndDelete(int item) {
+        if (isEmpty()) {
+            std::cout << "Stack is empty. Cannot perform search and delete operation.\n";
+            return;
+        }
+
+        Node* current = top;
+        Node* previous = nullptr;
+
+        while (current != nullptr) {
+            if (current->data == item) {
+                if (previous == nullptr) {
+                    top = current->next;
+                } else {
+                    previous->next = current->next;
+                }
+                delete current;
+                std::cout << "Item " << item << " deleted from the stack.\n";
+                return;
+            }
+            previous = current;
+            current = current->next;
+        }
+
+        std::cout << "Item " << item << " not found in the stack.\n";
+    }
+};
+
+int main() {
+    LinkedListStack stack;
+
+    stack.push(10);
+    stack.push(20);
+    stack.push(30);
+    stack.push(40);
+    stack.push(50);
+
+    stack.printStack();
+
+    stack.searchAndDelete(30);
+    stack.printStack();
+
+    stack.searchAndDelete(60);
+
+    return 0;
+}

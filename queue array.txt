@@ -1,0 +1,92 @@
+#include <iostream>
+
+using namespace std;
+#define MAX_SIZE 100
+
+class ArrayQueue {
+private:
+    int queue[MAX_SIZE];
+    int front;
+    int rear;
+
+public:
+    ArrayQueue() {
+        front = -1;
+        rear = -1;
+    }
+
+    bool isEmpty() {
+        return front == -1;
+    }
+
+    bool isFull() {
+        return (rear + 1) % MAX_SIZE == front;
+    }
+
+    void enqueue(int item) {
+        if (isFull()) {
+            std::cout << "Queue is full. Cannot enqueue item " << item << ".\n";
+            return;
+        }
+
+        if (isEmpty()) {
+            front = rear = 0;
+        } else {
+            rear = (rear + 1) % MAX_SIZE;
+        }
+
+        queue[rear] = item;
+        std::cout << "Item " << item << " enqueued into the queue.\n";
+    }
+
+    int dequeue() {
+        if (isEmpty()) {
+            std::cout << "Queue is empty. Cannot dequeue from an empty queue.\n";
+            return -1;
+        }
+
+        int item = queue[front];
+
+        if (front == rear) {
+            front = rear = -1;
+        } else {
+            front = (front + 1) % MAX_SIZE;
+        }
+
+        std::cout << "Item " << item << " dequeued from the queue.\n";
+        return item;
+    }
+
+    void displayQueue() {
+        if (isEmpty()) {
+            std::cout << "Queue is empty.\n";
+            return;
+        }
+
+        std::cout << "Queue: ";
+        int i = front;
+        while (i != rear) {
+            std::cout << queue[i] << " ";
+            i = (i + 1) % MAX_SIZE;
+        }
+        std::cout << queue[i] << std::endl;
+    }
+};
+
+int main() {
+    ArrayQueue queue;
+
+    queue.enqueue(10);
+    queue.enqueue(20);
+    queue.enqueue(30);
+    queue.displayQueue();
+
+    queue.dequeue();
+    queue.displayQueue();
+
+    queue.dequeue();
+    queue.dequeue();
+    queue.displayQueue();
+
+    return 0;
+}
